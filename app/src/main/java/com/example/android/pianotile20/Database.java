@@ -36,7 +36,7 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL("Drop table if exists " + TABLE_NAME);
         onCreate(db);
     }
-    public long insertData(String mdiv, String mrate, String mtime, String mcounter, String m) {
+    public long insertData(String mdiv, String mrate, String mtime, String mcounter, String m,String rec) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(div, mdiv);
@@ -44,13 +44,14 @@ public class Database extends SQLiteOpenHelper {
         contentValues.put(time, mtime);
         contentValues.put(counter, mcounter);
         contentValues.put(mode, m);
+        contentValues.put(recording,rec);
         long l = db.insert(TABLE_NAME, null, contentValues);
         return l;
     }
 
     public Cursor getAllDataSno() {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("select * from "+TABLE_NAME+" order by sno",null);
+        Cursor res = db.rawQuery("select * from "+TABLE_NAME+" order by sno desc",null);
         return res;
     }
     public Cursor getLatestData() {

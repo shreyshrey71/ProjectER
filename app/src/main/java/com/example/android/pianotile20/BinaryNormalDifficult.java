@@ -94,7 +94,7 @@ public class BinaryNormalDifficult extends AppCompatActivity {
     public void resultdisp()
     {
         Database mydb = new Database(this);
-        mydb.insertData("2",""+(counter/elapsed),""+elapsed,""+counter,"3");
+        mydb.insertData("2",""+(counter/elapsed),""+elapsed,""+counter,"3",recording);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

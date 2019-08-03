@@ -103,7 +103,7 @@ public class RelayInvert extends AppCompatActivity {
     public void resultdisp()
     {
         Database mydb = new Database(this);
-        mydb.insertData("1",""+((counter-1)/elapsed),""+elapsed,""+(counter-1),"4");
+        mydb.insertData("1",""+((counter-1)/elapsed),""+elapsed,""+(counter-1),"4",recording);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

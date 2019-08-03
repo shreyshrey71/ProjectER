@@ -1,13 +1,16 @@
 package com.example.android.pianotile20;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.icu.text.DecimalFormat;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,13 +35,16 @@ public class ZenNormal extends AppCompatActivity {
     int s1,s2,s3,s4;
     int recVal=0;
     String recording="";
+    DecimalFormat abc;
     float elapsed = 0.0f;
 
+    @TargetApi(Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textView = findViewById(R.id.coutertext);
+        abc = new DecimalFormat("#.##");
         final RelativeLayout main = (RelativeLayout) findViewById(R.id.gameparent);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             soundPool = new SoundPool.Builder().setMaxStreams(5).build();
@@ -94,7 +100,7 @@ public class ZenNormal extends AppCompatActivity {
     public void resultdisp()
     {
         Database mydb = new Database(this);
-        mydb.insertData("0",""+((counter-1)/elapsed),""+elapsed,""+(counter-1),"2");
+        mydb.insertData("0",""+((counter-1)/elapsed),""+elapsed,""+(counter-1),"2",recording);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -147,7 +153,6 @@ public class ZenNormal extends AppCompatActivity {
                                     recVal=1;
                                     if(IntroActivity.M==1)
                                         soundPool.play(s1,1,1,0,0,1);
-                                    textView.setText(""+(counter-1));
                                     v.setBackgroundColor(Color.parseColor("#999999"));
                                     if (wrong == 0)
                                         animateInitialRows();
@@ -206,7 +211,6 @@ public class ZenNormal extends AppCompatActivity {
                                     recVal=2;
                                     if(IntroActivity.M==1)
                                         soundPool.play(s2,1,1,0,0,1);
-                                    textView.setText(""+(counter-1));
                                     v.setBackgroundColor(Color.parseColor("#999999"));
                                     if (wrong == 0)
                                         animateInitialRows();
@@ -265,7 +269,6 @@ public class ZenNormal extends AppCompatActivity {
                                     recVal=3;
                                     if(IntroActivity.M==1)
                                         soundPool.play(s3,1,1,0,0,1);
-                                    textView.setText(""+(counter-1));
                                     v.setBackgroundColor(Color.parseColor("#999999"));
                                     if (wrong == 0)
                                         animateInitialRows();
@@ -324,7 +327,6 @@ public class ZenNormal extends AppCompatActivity {
                                     recVal=4;
                                     if(IntroActivity.M==1)
                                         soundPool.play(s4,1,1,0,0,1);
-                                    textView.setText(""+(counter-1));
                                     v.setBackgroundColor(Color.parseColor("#999999"));
                                     if (wrong == 0)
                                         animateInitialRows();
@@ -341,6 +343,7 @@ public class ZenNormal extends AppCompatActivity {
                     case 0: {
                         button0.setBackgroundColor(Color.BLACK);
                         button0.setOnClickListener(new View.OnClickListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.N)
                             @Override
                             public void onClick(View v) {
                                 if (viewpar.getId() == counter && wrong == 0) {
@@ -348,7 +351,7 @@ public class ZenNormal extends AppCompatActivity {
                                     recVal=1;
                                     if(IntroActivity.M==1)
                                         soundPool.play(s1,1,1,0,0,1);
-                                    textView.setText(""+(counter-1));
+                                    textView.setText(""+abc.format((counter-1)/elapsed)+" /s");
                                     v.setBackgroundColor(Color.parseColor("#999999"));
                                     if (wrong == 0)
                                         animateInitialRows();
@@ -415,6 +418,7 @@ public class ZenNormal extends AppCompatActivity {
                             }
                         });
                         button1.setOnClickListener(new View.OnClickListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.N)
                             @Override
                             public void onClick(View v) {
                                 if (viewpar.getId() == counter && wrong == 0) {
@@ -422,7 +426,7 @@ public class ZenNormal extends AppCompatActivity {
                                     recVal=2;
                                     if(IntroActivity.M==1)
                                         soundPool.play(s2,1,1,0,0,1);
-                                    textView.setText(""+(counter-1));
+                                    textView.setText(""+abc.format((counter-1)/elapsed)+" /s");
                                     v.setBackgroundColor(Color.parseColor("#999999"));
                                     if (wrong == 0)
                                         animateInitialRows();
@@ -488,6 +492,7 @@ public class ZenNormal extends AppCompatActivity {
                             }
                         });
                         button2.setOnClickListener(new View.OnClickListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.N)
                             @Override
                             public void onClick(View v) {
                                 if (viewpar.getId() == counter && wrong == 0) {
@@ -495,7 +500,7 @@ public class ZenNormal extends AppCompatActivity {
                                     recVal=3;
                                     if(IntroActivity.M==1)
                                         soundPool.play(s3,1,1,0,0,1);
-                                    textView.setText(""+(counter-1));
+                                    textView.setText(""+abc.format((counter-1)/elapsed)+" /s");
                                     v.setBackgroundColor(Color.parseColor("#999999"));
                                     if (wrong == 0)
                                         animateInitialRows();
@@ -562,6 +567,7 @@ public class ZenNormal extends AppCompatActivity {
                             }
                         });
                         button3.setOnClickListener(new View.OnClickListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.N)
                             @Override
                             public void onClick(View v) {
                                 if (viewpar.getId() == counter && wrong == 0) {
@@ -569,7 +575,7 @@ public class ZenNormal extends AppCompatActivity {
                                     recVal=4;
                                     if(IntroActivity.M==1)
                                         soundPool.play(s4,1,1,0,0,1);
-                                    textView.setText(""+(counter-1));
+                                    textView.setText(""+abc.format((counter-1)/elapsed)+" /s");
                                     v.setBackgroundColor(Color.parseColor("#999999"));
                                     if (wrong == 0)
                                         animateInitialRows();
@@ -623,6 +629,7 @@ public class ZenNormal extends AppCompatActivity {
             case 0: {
                 button0.setBackgroundColor(Color.BLACK);
                 button0.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onClick(View v) {
                         if (viewpar.getId() == counter && wrong == 0) {
@@ -630,7 +637,7 @@ public class ZenNormal extends AppCompatActivity {
                             recVal=1;
                             if(IntroActivity.M==1)
                                 soundPool.play(s1,1,1,0,0,1);
-                            textView.setText(""+(counter-1));
+                            textView.setText(""+abc.format((counter-1)/elapsed)+" /s");
                             v.setBackgroundColor(Color.parseColor("#999999"));
                             if (wrong == 0)
                                 animateInitialRows();
@@ -700,6 +707,7 @@ public class ZenNormal extends AppCompatActivity {
                     }
                 });
                 button1.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onClick(View v) {
                         if (viewpar.getId() == counter && wrong == 0) {
@@ -707,7 +715,7 @@ public class ZenNormal extends AppCompatActivity {
                             recVal=2;
                             if(IntroActivity.M==1)
                                 soundPool.play(s2,1,1,0,0,1);
-                            textView.setText(""+(counter-1));
+                            textView.setText(""+abc.format((counter-1)/elapsed)+" /s");
                             v.setBackgroundColor(Color.parseColor("#999999"));
                             if (wrong == 0)
                                 animateInitialRows();
@@ -775,6 +783,7 @@ public class ZenNormal extends AppCompatActivity {
                     }
                 });
                 button2.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onClick(View v) {
                         if (viewpar.getId() == counter && wrong == 0) {
@@ -782,7 +791,7 @@ public class ZenNormal extends AppCompatActivity {
                             recVal=3;
                             if(IntroActivity.M==1)
                                 soundPool.play(s3,1,1,0,0,1);
-                            textView.setText(""+(counter-1));
+                            textView.setText(""+abc.format((counter-1)/elapsed)+" /s");
                             v.setBackgroundColor(Color.parseColor("#999999"));
                             if (wrong == 0)
                                 animateInitialRows();
@@ -848,6 +857,7 @@ public class ZenNormal extends AppCompatActivity {
                     }
                 });
                 button3.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onClick(View v) {
                         if (viewpar.getId() == counter && wrong == 0) {
@@ -855,7 +865,7 @@ public class ZenNormal extends AppCompatActivity {
                             recVal=4;
                             if(IntroActivity.M==1)
                                 soundPool.play(s4,1,1,0,0,1);
-                            textView.setText(""+(counter-1));
+                            textView.setText(""+abc.format((counter-1)/elapsed)+" /s");
                             v.setBackgroundColor(Color.parseColor("#999999"));
                             if (wrong == 0)
                                 animateInitialRows();

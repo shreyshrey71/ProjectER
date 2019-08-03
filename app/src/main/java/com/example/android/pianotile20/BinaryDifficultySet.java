@@ -16,10 +16,12 @@ public class BinaryDifficultySet extends AppCompatActivity {
     public void normalEasyLaunch(View view){
         Intent intent = new Intent(this,BinaryNormalEasy.class);
         startActivity(intent);
+        finish();
     }
     public void invertEasyLaunch(View view){
         Intent intent = new Intent(this,BinaryInvertEasy.class);
         startActivity(intent);
+        finish();
     }
     public void leaderboardBinary(View view){
         onBackPressed();
@@ -28,10 +30,12 @@ public class BinaryDifficultySet extends AppCompatActivity {
     public void normalDifficultLaunch(View view){
         Intent intent = new Intent(this,BinaryNormalDifficult.class);
         startActivity(intent);
+        finish();
     }
     public void unstableLaunch(View view){
         Intent intent = new Intent(this,BinaryInvertDifficult.class);
         startActivity(intent);
+        finish();
     }
     public void backButton(View view){
         onBackPressed();

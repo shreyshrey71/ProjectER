@@ -94,7 +94,7 @@ public class ArcadeInvert extends AppCompatActivity {
     public void resultdisp()
     {
         Database mydb = new Database(this);
-        mydb.insertData("1",""+(counter/elapsed),""+elapsed,""+counter,"1");
+        mydb.insertData("1",""+(counter/elapsed),""+elapsed,""+counter,"1",recording);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

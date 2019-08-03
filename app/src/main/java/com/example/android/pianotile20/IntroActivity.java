@@ -49,5 +49,7 @@ public class IntroActivity extends AppCompatActivity {
         }
     }
     public void listOfRecordings(View view){
+        Intent intent = new Intent(this,Recordings.class);
+        startActivity(intent);
     }
 }

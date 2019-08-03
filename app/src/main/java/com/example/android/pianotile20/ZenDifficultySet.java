@@ -16,10 +16,12 @@ public class ZenDifficultySet extends AppCompatActivity {
     public void normalLaunch(View view){
         Intent intent = new Intent(this,ZenNormal.class);
         startActivity(intent);
+        finish();
     }
     public void invertLaunch(View view){
         Intent intent = new Intent(this,ZenInvert.class);
         startActivity(intent);
+        finish();
     }
     public void leaderboard(View view){
         Intent intent = new Intent(this,ZenDifficultySet.class);

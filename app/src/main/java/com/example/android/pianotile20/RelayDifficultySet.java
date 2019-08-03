@@ -17,10 +17,12 @@ public class RelayDifficultySet extends AppCompatActivity {
         System.out.println("ReachedHere");
         Intent intent = new Intent(this,RelayNormal.class);
         startActivity(intent);
+        finish();
     }
     public void invertLaunch(View view){
         Intent intent = new Intent(this,RelayInvert.class);
         startActivity(intent);
+        finish();
     }
     public void leaderboard(View view){
         Intent intent = new Intent(this,ZenDifficultySet.class);

@@ -17,10 +17,12 @@ public class ArcadeActivityDifficultySel extends AppCompatActivity {
     public void normalLaunch(View view){
         Intent intent = new Intent(this,ArcadeNormal.class);
         startActivity(intent);
+        finish();
     }
     public void invertLaunch(View view){
         Intent intent = new Intent(this,ArcadeInvert.class);
         startActivity(intent);
+        finish();
     }
     public void leaderboard(View view){
         Intent intent = new Intent(this,ZenDifficultySet.class);

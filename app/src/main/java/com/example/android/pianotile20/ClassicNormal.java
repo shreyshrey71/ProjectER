@@ -95,7 +95,7 @@ public class ClassicNormal extends AppCompatActivity {
     public void resultdisp()
     {
         Database mydb = new Database(this);
-        mydb.insertData("0",""+((counter-1)/elapsed),""+elapsed,""+(counter-1),"0");
+        mydb.insertData("0",""+((counter-1)/elapsed),""+elapsed,""+(counter-1),"0",recording);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
