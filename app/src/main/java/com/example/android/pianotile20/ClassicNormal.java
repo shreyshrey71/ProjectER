@@ -100,7 +100,7 @@ public class ClassicNormal extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(getApplicationContext(),Result.class);
+                Intent intent = new Intent(getApplicationContext(),IntroActivity.class);
                 startActivity(intent);
                 finish();
             }

@@ -89,9 +89,6 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.RecordsV
         recordsViewHolder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context,Player.class);
-                intent.putExtra("rec",recording.get(pos));
-                context.startActivity(intent);
             }
         });
     }
