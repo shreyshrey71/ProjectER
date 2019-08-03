@@ -48,5 +48,6 @@ public class Recordings extends AppCompatActivity {
             adapter=new RecordsAdapter(this,division,rate,time,counter,mode,recording);
             recyclerView.setAdapter(adapter);
         }
+        Toast.makeText(getApplicationContext(),recording.get(0),Toast.LENGTH_SHORT).show();
     }
 }

@@ -37,6 +37,9 @@
         <activity android:name=".ClassicInvert"/>
         <activity android:name=".RelayNormal"/>
         <activity android:name=".RelayInvert"/>
-        <activity android:name=".Result"/></application>
+        <activity android:name=".Result"/>
+        <activity android:name=".Player"/>
+    <activity android:name=".LeaderboardActivity"/>
+    </application>
 
 </manifest>

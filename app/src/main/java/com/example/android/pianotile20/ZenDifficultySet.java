@@ -24,7 +24,8 @@ public class ZenDifficultySet extends AppCompatActivity {
         finish();
     }
     public void leaderboard(View view){
-        Intent intent = new Intent(this,ZenDifficultySet.class);
+        Intent intent = new Intent(this,LeaderboardActivity.class);
+        intent.putExtra("mode",2);
         startActivity(intent);
     }
     public void backButton(View view){

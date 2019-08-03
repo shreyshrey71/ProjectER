@@ -54,15 +54,10 @@ public class Database extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select * from "+TABLE_NAME+" order by sno desc",null);
         return res;
     }
-    public Cursor getLatestData() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("select * from "+TABLE_NAME+" order by sno desc",null);
-        return res;
-    }
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public Cursor getAllDataModeC(String m) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("select * from "+TABLE_NAME+" where Mode = ? order by Counter",new String[] {m},null);
+        Cursor res = db.rawQuery("select * from "+TABLE_NAME+" where Mode = ? order by Counter desc",new String[] {m},null);
         return res;
     }
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -74,7 +69,7 @@ public class Database extends SQLiteOpenHelper {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public Cursor getAllDataModeR(String m) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("select * from "+TABLE_NAME+" where Mode = ? order by rate",new String[] {m},null);
+        Cursor res = db.rawQuery("select * from "+TABLE_NAME+" where Mode = ? order by rate desc",new String[] {m},null);
         return res;
     }
 

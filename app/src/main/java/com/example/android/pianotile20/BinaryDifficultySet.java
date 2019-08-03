@@ -24,7 +24,9 @@ public class BinaryDifficultySet extends AppCompatActivity {
         finish();
     }
     public void leaderboardBinary(View view){
-        onBackPressed();
+    Intent intent = new Intent(this,LeaderboardActivity.class);
+        intent.putExtra("mode",3);
+        startActivity(intent);
     }
 
     public void normalDifficultLaunch(View view){

@@ -25,7 +25,8 @@ public class ArcadeActivityDifficultySel extends AppCompatActivity {
         finish();
     }
     public void leaderboard(View view){
-        Intent intent = new Intent(this,ZenDifficultySet.class);
+        Intent intent = new Intent(this,LeaderboardActivity.class);
+        intent.putExtra("mode",1);
         startActivity(intent);
     }
     public void backButton(View view){
