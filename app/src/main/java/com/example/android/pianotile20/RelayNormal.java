@@ -2,6 +2,7 @@ package com.example.android.pianotile20;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -17,6 +18,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Random;
 
@@ -86,7 +90,7 @@ public class RelayNormal extends AppCompatActivity {
                     timercount-=0.1;
                     recording+=recVal;
                     recVal = 0;
-                    Toast.makeText(getApplicationContext(),recording,Toast.LENGTH_SHORT).show();
+
                     resultdisp();
                     wrong=1;
                 }
@@ -97,7 +101,26 @@ public class RelayNormal extends AppCompatActivity {
     public void resultdisp()
     {
         Database mydb = new Database(this);
-        mydb.insertData("0",""+((counter-1)/elapsed),""+elapsed,""+(counter-1),"4",recording);
+        Cursor res = mydb.getAllDataSno();
+        final String FILE_NAME = "recsave"+res.getCount()+".txt";
+        FileOutputStream fos = null;
+        try {
+            fos = openFileOutput(FILE_NAME, MODE_PRIVATE);
+            fos.write(recording.getBytes());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        mydb.insertData("0",""+((counter-1)/elapsed),""+elapsed,""+(counter-1),"4",""+res.getCount());
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -875,7 +898,7 @@ public class RelayNormal extends AppCompatActivity {
                 findViewById(i + bottomPos).animate().translationY((height - (i + 1) * rowHeight) * getResources().getDisplayMetrics().density);
                 findViewById(i + bottomPos).animate().setDuration(300);
             }
-            Toast.makeText(getApplicationContext(), "Loser", Toast.LENGTH_SHORT).show();
+
             wrong = 1;
         }
     }

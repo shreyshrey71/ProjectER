@@ -794,7 +794,7 @@ public class BinaryInvertDifficult extends AppCompatActivity {
                 findViewById(i + bottomPos).animate().translationY((height - (i + 1) * rowHeight) * getResources().getDisplayMetrics().density);
                 findViewById(i + bottomPos).animate().setDuration(300);
             }
-            Toast.makeText(getApplicationContext(), "Loser", Toast.LENGTH_SHORT).show();
+
             wrong = 1;
         }
     }

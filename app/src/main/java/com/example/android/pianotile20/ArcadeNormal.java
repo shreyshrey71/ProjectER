@@ -2,6 +2,7 @@ package com.example.android.pianotile20;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -17,6 +18,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Random;
 
 public class ArcadeNormal extends AppCompatActivity {
@@ -82,7 +86,7 @@ public class ArcadeNormal extends AppCompatActivity {
                 else {
                     recording+=recVal;
                     recVal = 0;
-                    Toast.makeText(getApplicationContext(),recording,Toast.LENGTH_SHORT).show();
+
                     resultdisp();
                     wrong=1;
                 }
@@ -93,7 +97,26 @@ public class ArcadeNormal extends AppCompatActivity {
     public void resultdisp()
     {
         Database mydb = new Database(this);
-        mydb.insertData("0",""+(counter/elapsed),""+elapsed,""+counter,"1",recording);
+        Cursor res = mydb.getAllDataSno();
+        final String FILE_NAME = "recsave"+res.getCount()+".txt";
+        FileOutputStream fos = null;
+        try {
+            fos = openFileOutput(FILE_NAME, MODE_PRIVATE);
+            fos.write(recording.getBytes());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        mydb.insertData("0",""+(counter/elapsed),""+elapsed,""+counter,"1",""+res.getCount());
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -849,7 +872,7 @@ public class ArcadeNormal extends AppCompatActivity {
                 findViewById(i + bottomPos).animate().translationY((height - (i + 1) * rowHeight) * getResources().getDisplayMetrics().density);
                 findViewById(i + bottomPos).animate().setDuration(300);
             }
-            Toast.makeText(getApplicationContext(), "Loser", Toast.LENGTH_SHORT).show();
+
             wrong = 1;
         }
     }

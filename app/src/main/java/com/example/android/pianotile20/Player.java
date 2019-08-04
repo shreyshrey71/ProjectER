@@ -1,5 +1,6 @@
 package com.example.android.pianotile20;
 
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
@@ -10,6 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 
 public class Player extends AppCompatActivity {
@@ -19,6 +25,7 @@ public class Player extends AppCompatActivity {
     DecimalFormat abc;
     SoundPool soundPool;
     int s1,s2,s3,s4;
+    String ext;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +43,37 @@ public class Player extends AppCompatActivity {
         abc= new DecimalFormat("#.#");
         textView = findViewById(R.id.coutertext);
         textView.setVisibility(View.GONE);
-        recording = getIntent().getStringExtra("rec");
+        ext = getIntent().getStringExtra("ext");
+
+        final String FILE_NAME = "recsave"+ext+".txt";
+
+        FileInputStream fis = null;
+
+        try {
+            fis = openFileInput(FILE_NAME);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String text;
+
+            while ((text = br.readLine()) != null) {
+                sb.append(text).append("\n");
+            }
+            recording=sb.toString();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         reclen=recording.length()*10;
         play();
     }
@@ -48,42 +85,30 @@ public class Player extends AppCompatActivity {
             @Override
             public void run() {
                 if(t<recording.length()){
-                    if(recording.charAt(t)==1)
+                    if(recording.charAt(t)=='1')
                     {
-
                         soundPool.play(s1,1,1,0,0,1);
                     }
-                    if(recording.charAt(t)==2)
+                    else if(recording.charAt(t)=='2')
                     {
-
                         soundPool.play(s2,1,1,0,0,1);
                     }
-                    if(recording.charAt(t)==3)
+                    else if(recording.charAt(t)=='3')
                     {
-
                         soundPool.play(s3,1,1,0,0,1);
                     }
-                    if(recording.charAt(t)==4)
+                    else if(recording.charAt(t)=='4')
                     {
-
                         soundPool.play(s4,1,1,0,0,1);
                     }
                     t++;
                 play();}
                 else
                 {
-                    back();
                 }
             }
         },100);
     }
     public void back(){
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                onBackPressed();
-            }
-        },250);
     }
 }
