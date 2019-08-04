@@ -592,7 +592,7 @@ public class ArcadeInvert extends AppCompatActivity {
 
     float ytop;
     int counter = 0;
-    long time=1000;
+    long time=800;
 
     public void animateInitialRows() {
         if(time>200)

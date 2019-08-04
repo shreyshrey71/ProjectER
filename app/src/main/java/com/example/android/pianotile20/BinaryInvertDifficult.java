@@ -1,6 +1,8 @@
 package com.example.android.pianotile20;
 
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -16,9 +18,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Random;
 
 public class BinaryInvertDifficult extends AppCompatActivity {
+
 
     float height, rowHeight = 152.0f;
     int numberOfRows = 0, numberOfRowsVisible = 0;
@@ -29,6 +35,9 @@ public class BinaryInvertDifficult extends AppCompatActivity {
     int ratio;
     SoundPool soundPool;
     int s1,s2,s3,s4;
+    int recVal=0;
+    String recording="";
+    float elapsed = 0.0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +71,69 @@ public class BinaryInvertDifficult extends AppCompatActivity {
             }
         }, 10);
     }
+    public void counterfunc()
+    {
 
+        Handler h = new Handler();
+        h.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(wrong==0){
+                    recording+=recVal;
+                    recVal = 0;
+                    elapsed+=0.1;
+                    counterfunc();
+                }
+                else {
+                    recording+=recVal;
+                    recVal = 0;
+
+                    resultdisp();
+                    wrong=1;
+                }
+
+            }
+        },100);
+    }
+
+    public void resultdisp()
+    {
+        Database mydb = new Database(this);
+        Cursor res = mydb.getAllDataSno();
+        final String FILE_NAME = "recsave"+res.getCount()+".txt";
+        FileOutputStream fos = null;
+        try {
+            fos = openFileOutput(FILE_NAME, MODE_PRIVATE);
+            fos.write(recording.getBytes());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        mydb.insertData("3",""+(counter/elapsed),""+elapsed,""+counter,"3",""+res.getCount());
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(getApplicationContext(),IntroActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        },1000);
+    }
     public void createfirstRow() {
         LayoutInflater inflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final RelativeLayout main = (RelativeLayout) findViewById(R.id.gameparent);
         RelativeLayout.LayoutParams rp1 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        View view0 = inflater.inflate(R.layout.recyclerview_invert, null);
+        View view0 = inflater.inflate(R.layout.recyclerview, null);
         view0.setId(0);
         view0.setLayoutParams(rp1);
         main.addView(view0);
@@ -83,12 +149,14 @@ public class BinaryInvertDifficult extends AppCompatActivity {
         switch (r) {
             case 0: {
                 button0.setText("Start");
-                button0.setBackgroundColor(Color.WHITE);
+                button0.setBackgroundColor(Color.BLACK);
                 button0.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (viewpar.getId() == counter && wrong == 0) {
+                            counterfunc();
                             counter++;
+                            recVal=1;
                             if(IntroActivity.M==1)
                                 soundPool.play(s1,1,1,0,0,1);
                             textView.setText(""+counter);
@@ -128,7 +196,7 @@ public class BinaryInvertDifficult extends AppCompatActivity {
             }
             case 1: {
                 button1.setText("Start");
-                button1.setBackgroundColor(Color.WHITE);
+                button1.setBackgroundColor(Color.BLACK);
                 button0.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -142,7 +210,9 @@ public class BinaryInvertDifficult extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if (viewpar.getId() == counter && wrong == 0) {
+                            counterfunc();
                             counter++;
+                            recVal=2;
                             if(IntroActivity.M==1)
                                 soundPool.play(s2,1,1,0,0,1);
                             textView.setText(""+counter);
@@ -173,7 +243,7 @@ public class BinaryInvertDifficult extends AppCompatActivity {
             }
             case 2: {
                 button2.setText("Start");
-                button2.setBackgroundColor(Color.WHITE);
+                button2.setBackgroundColor(Color.BLACK);
                 button0.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -196,7 +266,9 @@ public class BinaryInvertDifficult extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if (viewpar.getId() == counter && wrong == 0) {
+                            counterfunc();
                             counter++;
+                            recVal=3;
                             if(IntroActivity.M==1)
                                 soundPool.play(s3,1,1,0,0,1);
                             textView.setText(""+counter);
@@ -218,7 +290,7 @@ public class BinaryInvertDifficult extends AppCompatActivity {
             }
             case 3: {
                 button3.setText("Start");
-                button3.setBackgroundColor(Color.WHITE);
+                button3.setBackgroundColor(Color.BLACK);
                 button0.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -250,7 +322,9 @@ public class BinaryInvertDifficult extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if (viewpar.getId() == counter && wrong == 0) {
+                            counterfunc();
                             counter++;
+                            recVal=4;
                             if(IntroActivity.M==1)
                                 soundPool.play(s4,1,1,0,0,1);
                             textView.setText(""+counter);
@@ -270,7 +344,7 @@ public class BinaryInvertDifficult extends AppCompatActivity {
         final RelativeLayout main = (RelativeLayout) findViewById(R.id.gameparent);
         RelativeLayout.LayoutParams rp1 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         for (int i = 1; i <= numberOfRowsVisible; i++) {
-            View view = inflater.inflate(R.layout.recyclerview_invert, null);
+            View view = inflater.inflate(R.layout.recyclerview, null);
             topPos = i;
             view.setId(i);
             view.setLayoutParams(rp1);
@@ -283,12 +357,13 @@ public class BinaryInvertDifficult extends AppCompatActivity {
             int r = random.nextInt(4);
             switch (r) {
                 case 0: {
-                    button0.setBackgroundColor(Color.WHITE);
+                    button0.setBackgroundColor(Color.BLACK);
                     button0.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (viewpar.getId() == counter && wrong == 0) {
                                 counter++;
+                                recVal=1;
                                 if(IntroActivity.M==1)
                                     soundPool.play(s1,1,1,0,0,1);
                                 textView.setText(""+counter);
@@ -339,7 +414,7 @@ public class BinaryInvertDifficult extends AppCompatActivity {
                     break;
                 }
                 case 1: {
-                    button1.setBackgroundColor(Color.WHITE);
+                    button1.setBackgroundColor(Color.BLACK);
                     button0.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -358,6 +433,7 @@ public class BinaryInvertDifficult extends AppCompatActivity {
                         public void onClick(View v) {
                             if (viewpar.getId() == counter && wrong == 0) {
                                 counter++;
+                                recVal=2;
                                 if(IntroActivity.M==1)
                                     soundPool.play(s2,1,1,0,0,1);
                                 textView.setText(""+counter);
@@ -395,7 +471,7 @@ public class BinaryInvertDifficult extends AppCompatActivity {
                     break;
                 }
                 case 2: {
-                    button2.setBackgroundColor(Color.WHITE);
+                    button2.setBackgroundColor(Color.BLACK);
                     button0.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -427,6 +503,7 @@ public class BinaryInvertDifficult extends AppCompatActivity {
                         public void onClick(View v) {
                             if (viewpar.getId() == counter && wrong == 0) {
                                 counter++;
+                                recVal=3;
                                 if(IntroActivity.M==1)
                                     soundPool.play(s3,1,1,0,0,1);
                                 textView.setText(""+counter);
@@ -451,7 +528,7 @@ public class BinaryInvertDifficult extends AppCompatActivity {
                     break;
                 }
                 case 3: {
-                    button3.setBackgroundColor(Color.WHITE);
+                    button3.setBackgroundColor(Color.BLACK);
                     button0.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -496,6 +573,7 @@ public class BinaryInvertDifficult extends AppCompatActivity {
                         public void onClick(View v) {
                             if (viewpar.getId() == counter && wrong == 0) {
                                 counter++;
+                                recVal=4;
                                 if(IntroActivity.M==1)
                                     soundPool.play(s4,1,1,0,0,1);
                                 textView.setText(""+counter);
@@ -519,9 +597,10 @@ public class BinaryInvertDifficult extends AppCompatActivity {
     int c = 500;
 
     public void animateInitialRows() {
+        Random random = new Random();
+        c=random.nextInt(3)+1;
+        c*=300;
         time = Math.round(c * (1 + Math.sin((2*(bottomPos%2)+1) * Math.PI/2)));
-        if(c>200)
-            c-=5;
         if (wrong == 0) {
             for (int i = 0; i <= numberOfRowsVisible; i++) {
                 findViewById(i + bottomPos).animate().translationYBy(rowHeight * getResources().getDisplayMetrics().density);
@@ -547,7 +626,7 @@ public class BinaryInvertDifficult extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         RelativeLayout main = (RelativeLayout) findViewById(R.id.gameparent);
         RelativeLayout.LayoutParams rp1 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        View view = inflater.inflate(R.layout.recyclerview_invert, null);
+        View view = inflater.inflate(R.layout.recyclerview, null);
         view.setId(topPos);
         view.setY(ytop);
         view.setLayoutParams(rp1);
@@ -560,12 +639,13 @@ public class BinaryInvertDifficult extends AppCompatActivity {
         int r = random.nextInt(4);
         switch (r) {
             case 0: {
-                button0.setBackgroundColor(Color.WHITE);
+                button0.setBackgroundColor(Color.BLACK);
                 button0.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (viewpar.getId() == counter && wrong == 0) {
                             counter++;
+                            recVal=1;
                             if(IntroActivity.M==1)
                                 soundPool.play(s1,1,1,0,0,1);
                             textView.setText(""+counter);
@@ -618,7 +698,7 @@ public class BinaryInvertDifficult extends AppCompatActivity {
                 break;
             }
             case 1: {
-                button1.setBackgroundColor(Color.WHITE);
+                button1.setBackgroundColor(Color.BLACK);
                 button0.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -638,6 +718,7 @@ public class BinaryInvertDifficult extends AppCompatActivity {
                     public void onClick(View v) {
                         if (viewpar.getId() == counter && wrong == 0) {
                             counter++;
+                            recVal=2;
                             if(IntroActivity.M==1)
                                 soundPool.play(s2,1,1,0,0,1);
                             textView.setText(""+counter);
@@ -676,7 +757,7 @@ public class BinaryInvertDifficult extends AppCompatActivity {
                 break;
             }
             case 2: {
-                button2.setBackgroundColor(Color.WHITE);
+                button2.setBackgroundColor(Color.BLACK);
                 button0.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -708,6 +789,7 @@ public class BinaryInvertDifficult extends AppCompatActivity {
                     public void onClick(View v) {
                         if (viewpar.getId() == counter && wrong == 0) {
                             counter++;
+                            recVal=3;
                             if(IntroActivity.M==1)
                                 soundPool.play(s3,1,1,0,0,1);
                             textView.setText(""+counter);
@@ -731,7 +813,7 @@ public class BinaryInvertDifficult extends AppCompatActivity {
                 break;
             }
             case 3: {
-                button3.setBackgroundColor(Color.WHITE);
+                button3.setBackgroundColor(Color.BLACK);
                 button0.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -776,6 +858,7 @@ public class BinaryInvertDifficult extends AppCompatActivity {
                     public void onClick(View v) {
                         if (viewpar.getId() == counter && wrong == 0) {
                             counter++;
+                            recVal=4;
                             if(IntroActivity.M==1)
                                 soundPool.play(s4,1,1,0,0,1);
                             textView.setText(""+counter);
